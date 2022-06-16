@@ -1,24 +1,20 @@
-#include "shell.h"
+#include <stdio.h>
+#include <unistd.h>
 
 /**
- * execute_prog - Executes binary or builtin
- * @args: Argument buffer
- * @line: Line buffer
- * @env: Environment
- * @flow: Helps decide what code to run
- * Return: 1 if success
+ * main - execve example
+ *
+ * Return: Always 0.
  */
-int execute_prog(char **args, char *line, char **env, int flow)
+int main(void)
 {
-	int status;
+	char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
 
-	if (args[0] == NULL)
-		return (1);
-	if (flow == 1)
+	printf("Before execve\n");
+	if (execve(argv[0], argv, NULL) == -1)
 	{
-		if (check_for_builtins(args, line, env) == 1)
-			return (1);
+		perror("Error:");
 	}
-	status = launch_prog(args);
-	return (status);
+	printf("After execve\n");
+	return (0);
 }
